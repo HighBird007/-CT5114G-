@@ -21,6 +21,5 @@ void setATSUB( char *topic) ;
 //发送数据至Mqtt服务器
 void sendMqtt(char *topic,char *message);
 
-
 extern char ct511Data[];
 #endif

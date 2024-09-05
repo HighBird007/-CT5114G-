@@ -13,18 +13,10 @@ char atPubCommand[300];
 void quickUsart(UART_HandleTypeDef* h,char*message){
 	HAL_UART_Transmit(h,(uint8_t*)message,strlen(message),1000);
 }
+
 // 设置配置命令
 void setATCONFIG( char *clientId,  char *account,  char *password) {
     sprintf(atConfigCommand, "AT+MCONFIG=\"%s\",\"%s\",\"%s\"\r\n", clientId, account, password);
-}
-// 设置订阅命令
-void setATSUB( char *topic) {
-    sprintf(atSubCommand, "AT+MSUB=\"%s\",0\r\n", topic);
-}
-//发送数据至Mqtt服务器
-void sendMqtt(char *topic,char *message){
-	 sprintf(atPubCommand, "AT+MPUB=\"%s\",0,0,\"%s\"\r\n", topic, message);
-	quickUsart(&huart3,atPubCommand);
 }
 //设置连接的mqtt网址以及端口好
 void setUrlAndPort(char *url,unsigned int port){
@@ -49,5 +41,15 @@ void init_ct511(void) {
 	//5.开启连接
     quickUsart(&huart3, atConnectCommand); 
 	HAL_Delay(100);
+}
+
+// 设置订阅命令
+void setATSUB( char *topic) {
+    sprintf(atSubCommand, "AT+MSUB=\"%s\",0\r\n", topic);
+}
+//发送数据至Mqtt服务器
+void sendMqtt(char *topic,char *message){
+	 sprintf(atPubCommand, "AT+MPUB=\"%s\",0,0,\"%s\"\r\n", topic, message);
+	quickUsart(&huart3,atPubCommand);
 }
 
